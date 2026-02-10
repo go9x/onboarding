@@ -1,0 +1,11 @@
+{
+  "name": "9x-onboarding",
+  "description": "Setup and onboarding for 9x team skills",
+  "version": "1.0.0",
+  "author": { "name": "9x" },
+  "compatibility": {
+    "claudeCode": true,
+    "cowork": true
+  },
+  "requiredEnvVars": []
+}

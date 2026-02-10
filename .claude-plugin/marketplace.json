@@ -1,0 +1,21 @@
+{
+  "name": "go9x-onboarding",
+  "owner": {
+    "name": "9x",
+    "email": "pyv@go9x.com"
+  },
+  "metadata": {
+    "description": "Public onboarding marketplace for 9x team. Contains setup skill to install private 9x skills.",
+    "version": "1.0.0",
+    "compatibility": ["claudeCode", "cowork"]
+  },
+  "plugins": [
+    {
+      "name": "9x-onboarding",
+      "source": ".",
+      "description": "Setup skill to help 9x team members install private team skills and configure API access.",
+      "version": "1.0.0",
+      "author": { "name": "9x" }
+    }
+  ]
+}
