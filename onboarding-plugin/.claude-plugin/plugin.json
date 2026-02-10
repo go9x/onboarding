@@ -1,0 +1,8 @@
+{
+  "name": "9x-onboarding",
+  "version": "1.0.0",
+  "description": "Setup skill to help 9x team members install private team skills and configure API access.",
+  "author": {
+    "name": "9x"
+  }
+}

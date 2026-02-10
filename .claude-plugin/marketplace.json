@@ -7,7 +7,7 @@
   "plugins": [
     {
       "name": "9x-onboarding",
-      "source": ".",
+      "source": "./onboarding-plugin",
       "description": "Setup skill to help 9x team members install private team skills and configure API access."
     }
   ]
