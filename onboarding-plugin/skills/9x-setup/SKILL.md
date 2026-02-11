@@ -38,7 +38,9 @@ Ready to get started?
 
 First, check if they have GitHub connected in Cowork.
 
-Ask them: "Is GitHub connected in your Cowork? You can check by clicking your **profile icon (bottom left) → Settings → Integrations**. Do you see GitHub listed as connected?"
+Ask them: "Is GitHub connected in your Cowork? You can check by clicking your **profile icon (bottom left) → Settings → Connectors**. Do you see GitHub listed as connected?"
+
+**Pro tip:** If you're not sure what you're seeing, take a screenshot (**Cmd+Shift+4**, then drag to select the area) and paste it here. I can help verify!
 
 **If GitHub is NOT connected:**
 
@@ -49,7 +51,7 @@ Let's connect your GitHub account to Cowork. This will give you access to privat
 Follow these steps in Cowork:
 1. Click your **profile icon** (bottom left corner)
 2. Select **Settings**
-3. Click **Integrations** in the left sidebar
+3. Click **Connectors** in the left sidebar
 4. Find **GitHub** and click **Connect**
 5. Your browser will open GitHub's authorization page
 6. **Important:** When prompted, make sure to grant access to the **go9x** organization
@@ -68,8 +70,8 @@ Perfect! GitHub is connected.
 
 Quick check: When you connected GitHub, did you grant Cowork access to the **go9x** organization?
 
-You can verify this at: https://github.com/settings/installations
-Look for "Claude" or "Anthropic" in your installed apps and check that go9x organization is selected.
+You can verify this at: https://github.com/settings/apps/authorizations
+Look for "Claude" under the "Authorized GitHub Apps" tab and check that go9x organization is selected.
 ```
 
 **If they don't have go9x organization access:**
@@ -80,7 +82,7 @@ You'll need to be added to the go9x GitHub organization first. Please contact:
 - Alex
 - Jan
 
-Once you're added to the organization, you may need to reconnect GitHub in Cowork (Settings → Integrations → GitHub → Disconnect, then reconnect).
+Once you're added to the organization, you may need to reconnect GitHub in Cowork (Settings → Connectors → GitHub → Disconnect, then reconnect).
 ```
 
 Show celebration when confirmed: "✅ GitHub connected with go9x organization access!"
@@ -261,14 +263,14 @@ Let's troubleshoot together:
 
 1. **Check the Plugins list:** In Cowork → Plugins sidebar, do you see "go9x-skills" marketplace listed? (Even if the skills themselves aren't showing)
 
-2. **Check GitHub is still connected:** Go to Settings → Integrations. Is GitHub showing as "Connected"?
+2. **Check GitHub is still connected:** Go to Settings → Connectors. Is GitHub showing as "Connected"?
 
 3. **Verify your settings file:** Let's make sure the file was saved correctly. Can you:
    - Open Finder, press Cmd+Shift+G, type ~/.claude
    - Open settings.json
    - Copy all the text and paste it here so I can check?
 
-4. **Check organization access:** Go to https://github.com/settings/installations
+4. **Check organization access:** Go to https://github.com/settings/apps/authorizations
    - Find "Claude" or "Anthropic"
    - Click "Configure"
    - Make sure **go9x** organization is selected
@@ -277,6 +279,68 @@ Let's troubleshoot together:
 
 Let's go through these one by one to figure out what's happening!
 ```
+
+**If the private skills still don't load after the steps above:**
+
+Offer the one-time Terminal fallback:
+```
+If you've tried all of that and the go9x-skills marketplace still won't sync (or Cowork asks for a password), we can do a **one-time setup** so your Mac's GitHub login is available to Cowork. I'll guide you through a few steps in the Terminal — you can copy and paste the commands; no typing needed.
+
+Ready? Here we go.
+```
+
+Then guide them step-by-step:
+
+**Step A: Open Terminal**
+```
+1. Press **Cmd+Space** to open Spotlight
+2. Type **Terminal**
+3. Press **Enter**
+
+A window with a black or white background will open. That's the Terminal. You'll paste commands here.
+```
+
+**Step B: Install GitHub CLI (if needed)**
+
+Ask them to run this command (copy-paste into Terminal, then press Enter):
+```
+brew install gh
+```
+If they see "command not found: brew", tell them to install Homebrew first: go to https://brew.sh and follow the one-line install, then run `brew install gh` again. If they already have `gh`, they can skip to Step C.
+
+**Step C: Log in to GitHub**
+```
+Now run this command (copy-paste, then press Enter):
+
+gh auth login
+```
+
+Guide them through the prompts:
+- **What account?** → Choose **GitHub.com**
+- **Preferred protocol?** → Choose **HTTPS**
+- **Authenticate?** → Choose **Login with a web browser** (easiest)
+- A code will appear; press **Enter** to open the browser, then enter the code on the GitHub page and authorize.
+
+**Step D: Grant organization access (for go9x)**
+
+After login, run (copy-paste, then Enter):
+```
+gh auth refresh -s read:org
+```
+If prompted, approve in the browser again so Cowork can see the go9x organization.
+
+**Step E: Restart Cowork**
+```
+Almost done! Now:
+
+1. **Quit Cowork completely:** Press **Cmd+Q**
+2. Wait a few seconds
+3. **Reopen Cowork** from your Applications or Dock
+
+Cowork will now use your Mac's GitHub login to sync the private skills. Let me know once you've restarted!
+```
+
+After they confirm restart, repeat the verification (Plugins sidebar — do you see go9x-skills?). If it still fails, suggest they contact PYV or the team with what they see (e.g. any error message in Plugins).
 
 ### Step 6: Next Steps - API Credentials
 
@@ -316,9 +380,9 @@ Once you configure your credentials, you'll be able to use all the 9x team tools
 ## Error Handling
 
 ### GitHub Not Connected in Cowork
-- User needs to connect GitHub: Cowork → Settings → Integrations → GitHub → Connect
+- User needs to connect GitHub: Cowork → Settings → Connectors → GitHub → Connect
 - Must authorize and grant access to **go9x** organization during OAuth flow
-- Check authorization at: https://github.com/settings/installations
+- Check authorization at: https://github.com/settings/apps/authorizations
 
 ### No Access to go9x Organization
 - User must be a member of go9x GitHub organization
@@ -334,16 +398,16 @@ Once you configure your credentials, you'll be able to use all the 9x team tools
 
 ### Skills Don't Appear After Restart
 - Check **Plugins sidebar** in Cowork - is "go9x-skills" listed?
-- Verify **GitHub still connected**: Settings → Integrations → GitHub status
+- Verify **GitHub still connected**: Settings → Connectors → GitHub status
 - Check **settings.json was saved**: Open file again and verify changes are there
-- Verify **organization access**: https://github.com/settings/installations → Configure Claude app → Ensure go9x is selected
+- Verify **organization access**: https://github.com/settings/apps/authorizations → Find Claude app → Ensure go9x is selected
 - Try **complete restart**: Cmd+Q to quit, wait 10 seconds, reopen from Applications
 
 ### "Repository Not Found" or Access Errors
 - GitHub connection may not include go9x organization
-- Go to: https://github.com/settings/installations
-- Find "Claude" or "Anthropic"
-- Click **"Configure"**
+- Go to: https://github.com/settings/apps/authorizations
+- Find "Claude" under "Authorized GitHub Apps"
+- Check that **go9x** organization is selected
 - Under "Repository access" or "Organization access", make sure **go9x** is selected
 - If not selected, add it
 - Disconnect and reconnect GitHub in Cowork to refresh
@@ -353,6 +417,7 @@ Once you configure your credentials, you'll be able to use all the 9x team tools
 - Try visiting https://github.com/go9x/skills in their browser - can they see it?
 - If they get "404 Not Found", they don't have access yet
 - Full restart: Quit Cowork (Cmd+Q), wait 10 seconds, reopen
+- **If still not loading:** Cowork on desktop may be using system git credentials rather than in-app GitHub. Offer the **terminal fallback** (Step 5 in this skill): one-time `gh auth login` so the Mac's GitHub login is available to Cowork, then restart.
 
 ### Invalid JSON in Settings File
 Common mistakes:
